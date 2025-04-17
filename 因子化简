@@ -1,1 +1,35 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+typedef long long LL;
 
+LL simplify(LL n, int k) {
+    LL res = 1;
+    for (int i = 2; i <= sqrt(n); i++) {
+        if (n % i != 0) continue;
+        int cnt = 0;
+        while (n % i == 0) { // 统计素因子i的指数
+            cnt++;
+            n /= i;
+        }
+        if (cnt >= k) { // 保留指数≥k的项
+            for (int j = 0; j < cnt; j++)
+                res *= i;
+        }
+    }
+    // 处理剩余的大素数（指数为1）
+    if (n > 1 && k <= 1) res *= n;
+    return res;
+}
+
+int main() {
+    int q;
+    cin >> q;
+    while (q--) {
+        LL n;
+        int k;
+        cin >> n >> k;
+        cout << simplify(n, k) << endl;
+    }
+    return 0;
+}
